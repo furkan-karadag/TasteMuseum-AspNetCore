@@ -1,0 +1,12 @@
+﻿@model TasteMuseum.Business.Requests.Auth.LoginRequest
+
+
+@{
+    ViewData["Title"] = "Login";
+}
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(true)
+    </div>
+}
