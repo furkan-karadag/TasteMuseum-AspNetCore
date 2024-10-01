@@ -14,8 +14,8 @@ namespace TasteMuseum.Business.Abstract
     {
         public void AddReservation(AddReservationRequest request);
 
-        public List<Reservation> GetAllReservations();
+        public List<Reservation> GetAllReservations(GetAllReservationsRequest request);
         public void DeleteReservation(DeleteReservationRequest request);
-        List<Reservation> GetReservationsByStatus(string status);
+        List<Reservation> GetReservationsByStatus(GetReservationsByStatusRequest request);
     }
 }

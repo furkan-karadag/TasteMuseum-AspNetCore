@@ -12,6 +12,14 @@ namespace TasteMuseum.Business.Requests.Reservation
         public string PersonCount { get; set; }
         public int RestaurantId { get; set; }
         public int UserId { get; set; }
-        public string Status { get; set; }="Pending Approval";
+        public string Status { get; set; } 
     }
+    public enum Status
+    {
+        PendingApproval,
+        Approved,
+        Declined,
+        Completed
+    }
+
 }

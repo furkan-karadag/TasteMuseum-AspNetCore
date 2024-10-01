@@ -14,33 +14,56 @@ namespace TasteMuseum.Controllers
         {
             _reservationService = reservationService;
         }
+        [HttpGet("Index")]
+        public IActionResult Index([FromQuery] GetAllReservationsRequest request)
+        {
+            try 
+            {
+                var reservations = _reservationService.GetAllReservations(request);
+                return Ok(reservations);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
+        }
+        [HttpPost("AddReservation")]
         public IActionResult AddReservation(AddReservationRequest request)
         {
             try
             {
                 _reservationService.AddReservation(request);
-                return RedirectToAction("MyReservations");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                // Handle errors
+                
                 return BadRequest(ex.Message);
             }
         }
 
-        public IActionResult MyReservations(string status = "Pending Approval")
-        {
-            var reservations = _reservationService.GetReservationsByStatus(status);
-            return View(reservations);
-        }
-
-        public IActionResult DeleteReservation(int id)
+        [HttpGet("GetReservationsByStatus")]
+        public IActionResult GetReservationsByStatus(GetReservationsByStatusRequest request )
         {
             try
             {
-                _reservationService.DeleteReservation(new DeleteReservationRequest { Id = id });
-                return RedirectToAction("MyReservations");
+                 var reservations=_reservationService.GetReservationsByStatus(request);
+                return Ok(reservations);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("DeleteReservation")]
+        public IActionResult DeleteReservation(DeleteReservationRequest request)
+        {
+            try
+            {
+                _reservationService.DeleteReservation(request);
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

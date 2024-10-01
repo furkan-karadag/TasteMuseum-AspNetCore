@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TasteMuseum.Business.Abstract;
 using TasteMuseum.Business.Requests.Reservation;
 using TasteMuseum.Business.Requests.Restaurant;
+using TasteMuseum.Core.Expressions;
 using TasteMuseum.DataAccess.Abstract;
 using TasteMuseum.Entity.Concrete;
 
@@ -64,25 +67,56 @@ namespace TasteMuseum.Business.Concrete
             }
         }
 
-        public List<Reservation> GetAllReservations()
+
+        public List<Reservation> GetAllReservations(GetAllReservationsRequest request)
         {
-            List<Reservation> reservations = _reservationDal.GetListAll();
-            if (reservations==null || reservations.Count == 0)
+            List<Reservation>? reservations = new List<Reservation>();
+            Expression<Func<Reservation, bool>> expression = r => true;
+
+            if (request.StartDate != null)
             {
-                throw new Exception("No Reservations found");
+                expression = expression.ExAnd(r => r.ReservationDate >= request.StartDate);
+            }
+            if (request.EndDate != null)
+            {
+                expression = expression.ExAnd(r => r.ReservationDate <= request.EndDate);
+            }
+            if (!string.IsNullOrEmpty(request.Status))
+            {
+                expression = expression.ExAnd(r => r.Status == request.Status);
+            }
+            if (request.UserId != null)
+            {
+                expression = expression.ExAnd(r => r.UserId == request.UserId);
+            }
+            if (request.RestaurantId != null)
+            {
+                expression = expression.ExAnd(r => r.RestaurantId == request.RestaurantId);
+            }
+            if (request.PersonCount != null)
+            {
+                expression = expression.ExAnd(r => r.PersonCount == request.PersonCount);
+            }
+
+            reservations = _reservationDal.GetListAll(expression);
+
+            if (reservations == null || reservations.Count == 0)
+            {
+                throw new Exception("No reservations found");
             }
             return reservations;
         }
 
-        public List<Reservation> GetReservationsByStatus(string status)
+       
+
+        public List<Reservation> GetReservationsByStatus(GetReservationsByStatusRequest request)
         {
-            var reservations = _reservationDal.GetListAll(r => r.Status == status);
+            var reservations = _reservationDal.GetListAll(r => r.Status == request.Status);
             if (reservations == null || reservations.Count == 0)
             {
                 throw new Exception("No reservations found with the given status.");
             }
             return reservations;
         }
-
     }
 }
