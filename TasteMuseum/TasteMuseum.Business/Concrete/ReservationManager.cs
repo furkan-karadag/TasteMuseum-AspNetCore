@@ -81,10 +81,6 @@ namespace TasteMuseum.Business.Concrete
             {
                 expression = expression.ExAnd(r => r.ReservationDate <= request.EndDate);
             }
-            if (!string.IsNullOrEmpty(request.Status))
-            {
-                expression = expression.ExAnd(r => r.Status == request.Status);
-            }
             if (request.UserId != null)
             {
                 expression = expression.ExAnd(r => r.UserId == request.UserId);

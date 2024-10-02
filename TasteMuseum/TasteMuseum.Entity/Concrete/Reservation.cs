@@ -16,6 +16,12 @@ namespace TasteMuseum.Entity.Concrete
         public Restaurant Restaurant { get; set; }
         public string PersonCount { get; set; }
         public DateTime ReservationDate { get; set; }
-        public string Status { get; set; }
+        public ReservationStatus? Status { get; set; }
+    }
+    public enum ReservationStatus
+    {
+        Pending,
+        Approved,
+        Past
     }
 }

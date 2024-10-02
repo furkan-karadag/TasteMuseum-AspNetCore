@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TasteMuseum.Entity.Concrete;
 
 namespace TasteMuseum.Business.Requests.Reservation
 {
@@ -12,14 +13,8 @@ namespace TasteMuseum.Business.Requests.Reservation
         public string PersonCount { get; set; }
         public int RestaurantId { get; set; }
         public int UserId { get; set; }
-        public string Status { get; set; } 
+        public ReservationStatus? Status { get; set; } 
     }
-    public enum Status
-    {
-        PendingApproval,
-        Approved,
-        Declined,
-        Completed
-    }
+    
 
 }
