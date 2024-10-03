@@ -21,6 +21,8 @@ namespace TasteMuseum.Entity.Concreate
         public List<RestaurantComment> RestaurantComments { get; set; }
         public List<FoodComment> FoodComments { get; set; }
         public List <Reservation> Reservations { get; set; }
+        public List<FavoriteRestaurant> FavoriteRestaurants { get; set; } = new List<FavoriteRestaurant>();
+        public List<FavoriteFood> FavoriteFoods { get; set; } = new List<FavoriteFood>();
     }
 
 }

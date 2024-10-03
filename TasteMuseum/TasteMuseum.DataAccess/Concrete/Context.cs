@@ -27,6 +27,8 @@ namespace TasteMuseum.DataAccess.Concreate
         public DbSet<RestaurantComment> RestaurantComments { get; set; }
         public DbSet<RestaurantFood> RestaurantFoods{ get; set; }
         public DbSet<Reservation> Reservations{ get; set; }
+        public DbSet<FavoriteRestaurant> FavoriteRestaurants { get; set; }
+        public DbSet<FavoriteFood> FavoriteFoods { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,6 +76,27 @@ namespace TasteMuseum.DataAccess.Concreate
                 .HasOne(r => r.Restaurant)
                 .WithMany(re => re.Reservations)
                 .HasForeignKey(r => r.RestaurantId);
+
+            modelBuilder.Entity<FavoriteRestaurant>()
+                .HasOne(fr => fr.User)
+                .WithMany(u => u.FavoriteRestaurants)
+                .HasForeignKey(fr => fr.UserId);
+
+            modelBuilder.Entity<FavoriteRestaurant>()
+                .HasOne(fr => fr.Restaurant)
+                .WithMany(r => r.FavoriteRestaurants)
+                .HasForeignKey(fr => fr.RestaurantId);
+
+         
+            modelBuilder.Entity<FavoriteFood>()
+                .HasOne(ff => ff.User)
+                .WithMany(u => u.FavoriteFoods)
+                .HasForeignKey(ff => ff.UserId);
+
+            modelBuilder.Entity<FavoriteFood>()
+                .HasOne(ff => ff.Food)
+                .WithMany(f => f.FavoriteFoods)
+                .HasForeignKey(ff => ff.FoodId);
         }
     }
 }

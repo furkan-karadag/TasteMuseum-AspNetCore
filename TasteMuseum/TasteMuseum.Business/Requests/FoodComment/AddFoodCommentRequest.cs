@@ -15,5 +15,6 @@ namespace TasteMuseum.Business.Requests.FoodComment
         public string Comment { get; set; }  
         public int Rating { get; set; } 
         public DateTime Date { get; set; }  
+        public int FoodId { get; set; }
     }
 }
